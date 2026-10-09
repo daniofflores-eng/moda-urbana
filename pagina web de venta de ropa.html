@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Moda Urbana & Casual — Bolivia</title>
+    <style>
+        *{margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI', Roboto, sans-serif}
+        :root{--verde:#25D366; --oscuro:#1a1a1a; --gris:#f0f0f0; --acento:#2b6cb0; --rojo:#e53e3e}
+        body{background:#f7f9fc; color:#333; padding-bottom:40px}
+        header{background:linear-gradient(135deg,#1a1a1a,#333); color:white; padding:25px 20px; text-align:center}
+        header h1{font-size:24px; margin-bottom:5px}
+        .contenedor{max-width:900px; margin:0 auto; padding:20px}
+        .categorias{display:flex; gap:10px; margin:20px 0; flex-wrap:wrap}
+        .cat{padding:8px 18px; border-radius:25px; background:white; border:none; cursor:pointer; font-weight:bold; box-shadow:0 2px 5px rgba(0,0,0,0.08)}
+        .cat.activo{background:var(--verde); color:white}
+        .grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:18px}
+        .tarjeta{background:white; border-radius:14px; overflow:hidden; box-shadow:0 3px 10px rgba(0,0,0,0.08); transition:0.3s}
+        .tarjeta.seleccionada{outline:3px solid var(--verde)}
+        .tarjeta img{width:100%; height:220px; object-fit:cover; background:#ddd; display:block}
+        .tarjeta .info{padding:15px}
+        .tarjeta h3{font-size:16px; margin-bottom:6px}
+        .precio{font-size:20px; font-weight:bold; color:var(--acento)}
+        .tarjeta button{width:100%; margin-top:10px; padding:10px; border:none; border-radius:8px; font-weight:bold; cursor:pointer; transition:0.2s}
+        .btn-agregar{background:var(--gris)}
+        .btn-agregar.activo{background:var(--verde); color:white}
+        .carrito{background:white; border-radius:14px; padding:25px; margin-top:30px; box-shadow:0 3px 10px rgba(0,0,0,0.08)}
+        .item-carrito{display:flex; justify-content:space-between; align-items:center; padding:10px 0; border-bottom:1px solid #eee}
+        .eliminar{background:var(--rojo); color:white; border:none; padding:5px 10px; border-radius:6px; cursor:pointer; font-weight:bold}
+        .total{font-size:20px; font-weight:bold; text-align:right; margin-top:15px; color:var(--acento)}
+        .fila{display:flex; gap:12px; flex-wrap:wrap; margin-top:15px}
+        .campo{flex:1; min-width:200px; margin-bottom:15px}
+        .campo label{display:block; margin-bottom:5px; font-weight:bold; font-size:14px}
+        input,select,textarea{width:100%; padding:11px; border:1px solid #ddd; border-radius:8px; font-size:15px}
+        .btn-wsp{width:100%; background:var(--verde); color:white; border:none; padding:14px; border-radius:10px; font-size:17px; font-weight:bold; cursor:pointer; margin-top:10px}
+        .btn-wsp:hover{background:#1da855}
+        .oculto{display:none}
+        .vacio{color:#888; text-align:center; padding:15px}
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>🔥 Moda urbana🔥 </h1>
+    <p>Estilo que se ve — Envíos a toda Bolivia 🇧🇴</p>
+</header>
+
+<div class="contenedor">
+    <div class="categorias">
+        <button class="cat activo" onclick="filtrar('todos')">Todos</button>
+        <button class="cat" onclick="filtrar('ropa')">Ropa</button>
+        <button class="cat" onclick="filtrar('zapatillas')">Zapatillas</button>
+    </div>
+
+    <div class="grid" id="gridProductos">
+        <!-- ROPA -->
+        <div class="tarjeta" data-cat="ropa" data-nombre="Jeans Baggy" data-precio="210">
+            <img src="https://acdn-us.mitiendanube.com/stores/004/781/564/products/baggyhombreceleste1-2ab1df8d845e10d01d17675522242077-1024-1024.webp" alt="Jeans Baggy">
+            <div class="info">
+                <h3>👖 Jeans Baggy</h3>
+                <p>Estilo suelto, tendencia</p>
+                <p class="precio">Bs. 210</p>
+                <button class="btn-agregar" onclick="toggleProducto(this)">Agregar</button>
+            </div>
+        </div>
+
+        <div class="tarjeta" data-cat="ropa" data-nombre="Jeans Corte Recto" data-precio="195">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS4OzNR0NDWQG0RBvyKNl1n-hzhymUIez4kV-UG2UOKCQ&s=10" alt="Jeans Recto">
+            <div class="info">
+                <h3>👖 Jeans Corte Recto</h3>
+                <p>Clásico y cómodo</p>
+                <p class="precio">Bs. 195</p>
+                <button class="btn-agregar" onclick="toggleProducto(this)">Agregar</button>
+            </div>
+        </div>
+
+        <div class="tarjeta" data-cat="ropa" data-nombre="Conjunto Canguro" data-precio="230">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTH1sLhS2uFX3Yj-4J1z3KEFm56nnicOt8jvtLimVvUl1jR7R4bJ5Isn68&s=10" alt="Conjunto Canguro">
+            <div class="info">
+                <h3>🧥 Conjunto Canguro</h3>
+                <p>Sudadera + Pantalón</p>
+                <p class="precio">Bs. 299</p>
+                <button class="btn-agregar" onclick="toggleProducto(this)">Agregar</button>
+            </div>
+        </div>
+
+        <div class="tarjeta" data-cat="ropa" data-nombre="Sudadera Urbana" data-precio="145">
+            <img src="https://sc04.alicdn.com/kf/H75a65dfabf9f4800a95acd672b4de068Z.jpg" alt="Sudadera">
+            <div class="info">
+                <h3>👕 Sudadera Urbana</h3>
+                <p>Algodón premium</p>
+                <p class="precio">Bs. 145</p>
+                <button class="btn-agregar" onclick="toggleProducto(this)">Agregar</button>
+            </div>
+        </div>
+
+        <div class="tarjeta" data-cat="ropa" data-nombre="Chompa Urbana" data-precio="250">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQtVkor8V4ncyHLu-D2t-RIRzQLwy7KXJPWgA2of9Gmj3AKgGz-onOXInc&s=10" alt="Chompa">
+            <div class="info">
+                <h3>🧥 Chompa Urbana</h3>
+                <p>Estilo moderno</p>
+                <p class="precio">Bs. 199</p>
+                <button class="btn-agregar" onclick="toggleProducto(this)">Agregar</button>
+            </div>
+        </div>
+
+        <div class="tarjeta" data-cat="ropa" data-nombre="Polera Estampada" data-precio="120">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTsd8o4Mg5B-g7aC_kqYgTxakd2rHyGwVc81UES4ZZWBxD7zhJs6vNgBDnx&s=10" alt="Polera">
+            <div class="info">
+                <h3>👕 Polera Estampada</h3>
+                <p>Diseños exclusivos</p>
+                <p class="precio">Bs. 120</p>
+                <button class="btn-agregar" onclick="toggleProducto(this)">Agregar</button>
+            </div>
+        </div>
+
+        <!-- ZAPATILLAS -->
+        <div class="tarjeta" data-cat="zapatillas" data-nombre="Jordan 4 Black Cat" data-precio="480">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZQf5ZjPAtmlIawGesuEptDxqjhvpvf_IvRYS5xwXDervmNZLUt5CT2kA&s=10" alt="Jordan 4 Black Cat">
+            <div class="info">
+                <h3>👟 Jordan 4 Black Cat</h3>
+                <p>Edición especial</p>
+                <p class="precio">Bs. 480</p>
+                <button class="btn-agregar" onclick="toggleProducto(this)">Agregar</button>
+            </div>
+        </div>
+
+        <div class="tarjeta" data-cat="zapatillas" data-nombre="Air Force 1" data-precio="390">
+            <img src="https://yeeshopctg.com/cdn/shop/files/Nike_Af1_Clasicos_Blancos-3.jpg?v=1759828843&width=1445" alt="Air Force 1">
+            <div class="info">
+                <h3>👟 Air Force 1</h3>
+                <p>Clásico atemporal</p>
+                <p class="precio">Bs. 320</p>
+                <button class="btn-agregar" onclick="toggleProducto(this)">Agregar</button>
+            </div>
+        </div>
+
+        <div class="tarjeta" data-cat="zapatillas" data-nombre="Adidas Campus" data-precio="350">
+            <img src="https://acdn-us.mitiendanube.com/stores/002/307/845/products/d40216b5-012e-40a5-8a3b-aae2acbcd74b1-e465e37159f29e401616866775178950-1024-1024.webp" alt="Adidas Campus">
+            <div class="info">
+                <h3>👟 Adidas Campus</h3>
+                <p>Estilo retro</p>
+                <p class="precio">Bs. 350</p>
+                <button class="btn-agregar" onclick="toggleProducto(this)">Agregar</button>
+            </div>
+        </div>
+
+        <div class="tarjeta" data-cat="zapatillas" data-nombre="Zapatillas Casuales" data-precio="280">
+            <img src="https://calzadoscerere.com/cdn/shop/files/00210071000100_29d79cea-17ac-445f-9c2a-aefc8667085b.jpg?v=1734015078" alt="Zapatillas Casuales">
+            <div class="info">
+                <h3>👟 Zapatillas Casuales</h3>
+                <p>Uso diario</p>
+                <p class="precio">Bs. 280</p>
+                <button class="btn-agregar" onclick="toggleProducto(this)">Agregar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- CARRITO -->
+    <div class="carrito">
+        <h2>🛒 Tu Carrito</h2>
+        <div id="listaCarrito"></div>
+        <p class="vacio" id="mensajeVacio">Aún no has agregado productos</p>
+        <div class="total">Total: Bs. <span id="precioTotal">0</span></div>
+
+        <form id="formPedido">
+            <div class="fila">
+                <div class="campo">
+                    <label>Nombre Completo *</label>
+                    <input type="text" id="nombre" required placeholder="Tu nombre y apellido">
+                </div>
+                <div class="campo">
+                    <label>Teléfono / WhatsApp *</label>
+                    <input type="tel" id="tel" required placeholder="+591 7XX XXXXXX">
+                </div>
+            </div>
+
+            <div class="fila">
+                <div class="campo">
+                    <label>Ciudad / Zona *</label>
+                    <input type="text" id="ciudad" required placeholder="La Paz, Santa Cruz...">
+                </div>
+                <div class="campo">
+                    <label id="labelTalla">Talla / Medida *</label>
+                    <select id="talla" required>
+                        <option value="">Seleccionar</option>
+                        <optgroup label="👕 Ropa">
+                            <option>XS</option>
+                            <option>S</option>
+                            <option>M</option>
+                            <option>L</option>
+                            <option>XL</option>
+                        </optgroup>
+                        <optgroup label="👟 Zapatillas">
+                            <option>36</option>
+                            <option>37</option>
+                            <option>38</option>
+                            <option>39</option>
+                            <option>40</option>
+                            <option>41</option>
+                            <option>42</option>
+                            <option>43</option>
+                            <option>44</option>
+                        </optgroup>
+                    </select>
+                </div>
+            </div>
+
+            <div class="campo">
+                <label>Dirección de Entrega *</label>
+                <textarea id="dir" rows="2" required placeholder="Calle, número, referencia..."></textarea>
+            </div>
+
+            <div class="fila">
+                <div class="campo">
+                    <label>Color preferido</label>
+                    <input type="text" id="color" placeholder="Negro, azul, blanco...">
+                </div>
+                <div class="campo">
+                    <label>Detalles extra</label>
+                    <input type="text" id="extra" placeholder="Alguna indicación">
+                </div>
+            </div>
+
+            <button type="submit" class="btn-wsp">💬 Enviar Pedido a WhatsApp</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    const TU_WSP = "59173471054";
+    let carrito = [];
+
+    function toggleProducto(boton) {
+        const tarjeta = boton.closest('.tarjeta');
+        const nombre = tarjeta.dataset.nombre;
+        const precio = parseInt(tarjeta.dataset.precio);
+
+        const indice = carrito.findIndex(p => p.nombre === nombre);
+        
+        if(indice === -1) {
+            carrito.push({nombre, precio});
+            tarjeta.classList.add('seleccionada');
+            boton.classList.add('activo');
+            boton.textContent = '✓ Agregado';
+        } else {
+            carrito.splice(indice, 1);
+            tarjeta.classList.remove('seleccionada');
+            boton.classList.remove('activo');
+            boton.textContent = 'Agregar';
+        }
+        
+        actualizarCarrito();
+    }
+
+    function quitarProducto(nombre) {
+        carrito = carrito.filter(p => p.nombre !== nombre);
+        document.querySelectorAll('.tarjeta').forEach(t => {
+            if(t.dataset.nombre === nombre) {
+                t.classList.remove('seleccionada');
+                t.querySelector('.btn-agregar').classList.remove('activo');
+                t.querySelector('.btn-agregar').textContent = 'Agregar';
+            }
+        });
+        actualizarCarrito();
+    }
+
+    function actualizarCarrito() {
+        const lista = document.getElementById('listaCarrito');
+        const vacio = document.getElementById('mensajeVacio');
+        const total = document.getElementById('precioTotal');
+        
+        lista.innerHTML = '';
+        
+        if(carrito.length === 0) {
+            vacio.classList.remove('oculto');
+            total.textContent = '0';
+            return;
+        }
+        
+        vacio.classList.add('oculto');
+        let suma = 0;
+        
+        carrito.forEach(p => {
+            suma += p.precio;
+            const item = document.createElement('div');
+            item.className = 'item-carrito';
+            item.innerHTML = `
+                <span><strong>${p.nombre}</strong></span>
+                <span>Bs. ${p.precio}</span>
+                <button class="eliminar" onclick="quitarProducto('${p.nombre}')">✕</button>
+            `;
+            lista.appendChild(item);
+        });
+        
+        total.textContent = suma;
+    }
+
+    function filtrar(cat) {
+        document.querySelectorAll('.cat').forEach(b=>b.classList.remove('activo'));
+        event.target.classList.add('activo');
+        document.querySelectorAll('.tarjeta').forEach(t=>{
+            t.classList.toggle('oculto', cat!=='todos' && t.dataset.cat!==cat);
+        });
+    }
+
+    document.getElementById('formPedido').addEventListener('submit', e=>{
+        e.preventDefault();
+        
+        if(carrito.length === 0) {
+            alert('⚠️ Agrega al menos un producto al carrito');
+            return;
+        }
+
+        const nombre = document.getElementById('nombre').value;
+        const tel = document.getElementById('tel').value;
+        const ciudad = document.getElementById('ciudad').value;
+        const talla = document.getElementById('talla').value;
+        const dir = document.getElementById('dir').value;
+        const color = document.getElementById('color').value || 'No indicado';
+        const extra = document.getElementById('extra').value || 'Ninguno';
+        
+        let listaProductos = carrito.map(p => `• ${p.nombre} — Bs. ${p.precio}`).join('\n');
+        let sumaTotal = carrito.reduce((sum, p) => sum + p.precio, 0);
+
+        const mensaje = `🔥 NUEVO PEDIDO — MODA URBANA
+
+👤 Cliente: ${nombre}
+📞 Teléfono: ${tel}
+📍 Ciudad/Zona: ${ciudad}
+🏠 Dirección: ${dir}
+
+🛒 PRODUCTOS:
+${listaProductos}
+
+💰 TOTAL: Bs. ${sumaTotal}
+
+📏 Talla: ${talla}
+🎨 Color: ${color}
+📝 Detalles: ${extra}
+
+---
+✅ Recibido desde tu tienda web`;
+
+        window.open(`https://wa.me/${TU_WSP}?text=${encodeURIComponent(mensaje)}`, '_blank');
+    });
+</script>
+</body>
+</html>
